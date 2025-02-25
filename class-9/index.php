@@ -1,10 +1,24 @@
 <?php
+    session_start();
 
     include "../helpers/helpers.php";
 
     include "database.php";
 
     $students = mysqli_query($db_connection, "SELECT * FROM students");
+
+
+    // CRUD
+    // C = Create
+    // R = Read
+    // U = Update
+    // D = Delete
+
+    // if(isset($_SESSION['is_updated'])) {
+    //     echo "Student Successfully Updated!";
+
+    //     unset($_SESSION['is_updated']);
+    // }
 ?>
 
 
@@ -20,6 +34,17 @@
 </head>
 <body>
     <div class="container mt-5">
+
+        <?php 
+            if(isset($_SESSION['is_updated'])) { 
+                unset($_SESSION['is_updated']);
+        ?>
+            <div class="alert alert-success" role="alert">
+                Student Successfully Updated!
+            </div>
+        <?php
+            }
+        ?>
 
         <div class="row">
             <div class="col-12">
@@ -62,6 +87,7 @@
                             <th>Email</th>
                             <th>Address</th>
                             <th>Class</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +106,7 @@
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <button class="btn btn-sm btn-danger">Delete</button>
-                                    <button class="btn btn-sm btn-info">Edit</button>
+                                    <a href="edit.php?id=<?=$student['id']?>" class="btn btn-sm btn-info">Edit</a>
                                 </div>
                             </td>
                         </tr>
