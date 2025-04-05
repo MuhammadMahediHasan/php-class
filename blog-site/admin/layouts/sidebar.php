@@ -42,6 +42,21 @@
         </div>
     </li>
 
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePost"
+            aria-expanded="true" aria-controls="collapsePost">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Post</span>
+        </a>
+        <div id="collapsePost" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="?page=create-post">Create</a>
+                <a class="collapse-item" href="?page=post-list">List</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

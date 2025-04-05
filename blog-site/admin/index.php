@@ -41,6 +41,14 @@
                             case 'category-list':
                                 include_once './category/list.php';
                                 break;
+
+                            case 'create-post':
+                                include_once './post/create.php';
+                                break;
+    
+                                case 'post-list':
+                                    include_once './post/list.php';
+                                    break;
     
                             default:
                             include_once './dashboard.php';
