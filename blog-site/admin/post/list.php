@@ -49,7 +49,7 @@
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <button class="btn btn-sm btn-danger">Delete</button>
-                                    <a href="edit.php?id=<?=$post['id']?>" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="?page=edit-post&id=<?=$post['id']?>" class="btn btn-sm btn-info">Edit</a>
                                 </div>
                             </td>
                         </tr>

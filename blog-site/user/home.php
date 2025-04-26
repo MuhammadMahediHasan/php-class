@@ -2,12 +2,21 @@
 
     include '../admin/common/db-connection.php';
 
-    $latestPostQuery = mysqli_query($db_connection, "SELECT * FROM posts ORDER BY created_at DESC LIMIT 1;");
+    $latestPostQuery = mysqli_query($db_connection, "SELECT * FROM posts ORDER BY created_at DESC;");
+    $categories = mysqli_query($db_connection, "SELECT name FROM categories");
+
+    // 10
+    // 9
+    // 8
 
     $latest = mysqli_fetch_assoc($latestPostQuery);
 
-    $strToTime = strtotime($latest['created_at']);
-    $dateFormat = date('F d, Y', $strToTime);
+
+    function dateFormatter($date) {
+        $date = strtotime($date);
+
+        return date('F d, Y', $date);
+    }
 
 ?>
 
@@ -20,7 +29,7 @@
             <div class="card mb-4">
                 <a href="#!"><img class="card-img-top" src="<?= '../storage/' . $latest['image'] ?>" alt="..." /></a>
                 <div class="card-body">
-                    <div class="small text-muted"><?= $dateFormat ?> </div>
+                    <div class="small text-muted"><?= dateFormatter($latest['created_at']) ?> </div>
                     <h2 class="card-title">
                         <?= $latest['title'] ?>
                     </h2>
@@ -32,50 +41,29 @@
             </div>
             <!-- Nested row for non-featured blog posts-->
             <div class="row">
+                <?php
+                    while($post = mysqli_fetch_assoc($latestPostQuery)) {
+                ?>
                 <div class="col-lg-6">
                     <!-- Blog post-->
                     <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                        <a href="#!"><img class="card-img-top" src="<?= '../storage/' . $post['image'] ?>" alt="..." /></a>
                         <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
-                        </div>
-                    </div>
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
+                            <div class="small text-muted"><?= dateFormatter($post['created_at']) ?></div>
+                            <h2 class="card-title h4"><?=$post['title']?></h2>
+                            <p class="card-text">
+                                <?= substr($post['description'], 0, 150) ?> ...    
+                            </p>
                             <a class="btn btn-primary" href="#!">Read more →</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
-                        </div>
-                    </div>
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2023</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.</p>
-                            <a class="btn btn-primary" href="#!">Read more →</a>
-                        </div>
-                    </div>
-                </div>
+
+                <?php
+                
+                    }
+                ?>
+                
             </div>
             <!-- Pagination-->
             <nav aria-label="Pagination">
@@ -108,20 +96,40 @@
                 <div class="card-header">Categories</div>
                 <div class="card-body">
                     <div class="row">
+                        <?php
+                            $categories = mysqli_fetch_all($categories);
+                            $chunkData = array_chunk($categories, 2);
+
+                            for($i = 0; $i <  count($chunkData); $i++) {
+                                $categories = $chunkData[$i];
+
+                            }
+                            
+                            foreach($chunkData as $i => $categories) :
+                        ?>
                         <div class="col-sm-6">
                             <ul class="list-unstyled mb-0">
-                                <li><a href="#!">Web Design</a></li>
-                                <li><a href="#!">HTML</a></li>
-                                <li><a href="#!">Freebies</a></li>
+
+                                <?php
+                                    foreach($categories as $category) :
+                                ?>
+
+                                <li>
+                                    <a href="#!">
+                                        <?= $category[0] ?>
+                                    </a>
+                                </li>
+                                <?php
+                                    endforeach;
+                                ?>
                             </ul>
                         </div>
-                        <div class="col-sm-6">
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="#!">JavaScript</a></li>
-                                <li><a href="#!">CSS</a></li>
-                                <li><a href="#!">Tutorials</a></li>
-                            </ul>
-                        </div>
+
+                        <?php
+                            endforeach;
+                        ?>
+
+
                     </div>
                 </div>
             </div>

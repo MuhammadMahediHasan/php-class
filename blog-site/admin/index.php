@@ -45,10 +45,14 @@
                             case 'create-post':
                                 include_once './post/create.php';
                                 break;
+
+                            case 'edit-post':
+                                include_once './post/edit.php';
+                                break;
     
-                                case 'post-list':
-                                    include_once './post/list.php';
-                                    break;
+                            case 'post-list':
+                                include_once './post/list.php';
+                                break;
     
                             default:
                             include_once './dashboard.php';
