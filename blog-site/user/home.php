@@ -1,24 +1,27 @@
 <?php
 
     include '../admin/common/db-connection.php';
+    include '../admin/common/functions.php';
 
     $latestPostQuery = mysqli_query($db_connection, "SELECT * FROM posts ORDER BY created_at DESC;");
-    $categories = mysqli_query($db_connection, "SELECT name FROM categories");
+    $categories = mysqli_query($db_connection, "SELECT name, id FROM categories");
 
     // 10
     // 9
     // 8
 
     $latest = mysqli_fetch_assoc($latestPostQuery);
-
-
-    function dateFormatter($date) {
-        $date = strtotime($date);
-
-        return date('F d, Y', $date);
-    }
-
 ?>
+
+<!-- Page header with logo and tagline-->
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+            <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+        </div>
+    </div>
+</header>
 
 <!-- Page content-->
 <div class="container">
@@ -115,7 +118,7 @@
                                 ?>
 
                                 <li>
-                                    <a href="#!">
+                                    <a href="?page=category-posts&category_id=<?= $category[1] ?>">
                                         <?= $category[0] ?>
                                     </a>
                                 </li>

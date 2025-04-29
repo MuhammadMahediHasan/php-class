@@ -2,11 +2,21 @@
 
     include __DIR__ . '/../common/db-connection.php';
 
-    $posts = mysqli_query($db_connection, "SELECT * FROM posts");
+    // inner join
+    // left join
+    // right join
+    // full inner join
+
+    $posts = mysqli_query(
+        $db_connection, "
+            SELECT posts.*, categories.name as category_name
+            FROM posts
+            INNER JOIN categories
+            ON posts.category_id = categories.id
+        ");
     
 
 ?>
-
 <!-- Begin Page Content -->
 
 <div class="container-fluid">
@@ -28,6 +38,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Category</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Image</th>
@@ -41,8 +52,9 @@
                                 $i++;
                         ?>
                         <tr>
+                            <td><?= $post['category_name'] ?></td>
                             <td><?= $post['title'] ?></td>
-                            <td><?= $post['description'] ?></td>
+                            <td><?= substr($post['description'], 0, 100) ?>...</td>
                             <td>
                                 <img style="width: 100px" src="../storage/<?= $post['image'] ?>" alt="Banner">
                             </td>
